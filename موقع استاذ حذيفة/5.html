@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تقييمنا - اشتراكات يامن</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-review">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="1.html">اشتراكات يامن</a>
+      <button class="menu-toggle" aria-label="فتح القائمة">القائمة</button>
+      <nav class="nav-bar">
+        <ul class="nav-links">
+          <li><a href="1.html">الرئيسية</a></li>
+          <li><a href="2.html">المنتجات</a></li>
+          <li><a href="3.html">نبذة عنا</a></li>
+          <li><a href="4.html">تواصل</a></li>
+          <li><a href="5.html" class="active">تقييمنا</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section-light top-section">
+      <div class="section-header">
+        <h1>تقييمنا</h1>
+        <p>شهادات العملاء والتقييمات تجيبك عن جودة خدماتنا ومنتجاتنا.</p>
+      </div>
+      <div class="review-grid" id="reviewGrid">
+      </div>
+      <div class="review-form-block">
+        <h2>شاركنا رأيك</h2>
+        <form class="review-form" id="reviewForm">
+          <label>اسمك</label>
+          <input type="text" id="reviewName" placeholder="أدخل اسمك" required />
+          <label>التقييم</label>
+          <select id="reviewRating" required>
+            <option>⭐⭐⭐⭐⭐</option>
+            <option>⭐⭐⭐⭐</option>
+            <option>⭐⭐⭐</option>
+            <option>⭐⭐</option>
+            <option>⭐</option>
+          </select>
+          <label>رسالتك</label>
+          <textarea id="reviewMessage" placeholder="اكتب تقييمك هنا" required></textarea>
+          <button type="submit" class="btn btn-primary">أرسل التقييم</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>جميع الحقوق محفوظة © 2026 اشتراكات يامن</p>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    // معالجة نموذج التقييمات
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewGrid = document.getElementById('reviewGrid');
+    
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('reviewName').value;
+        const rating = document.getElementById('reviewRating').value;
+        const message = document.getElementById('reviewMessage').value;
+        
+        if (name && rating && message) {
+          // إنشاء بطاقة تقييم جديدة
+          const newReview = document.createElement('article');
+          newReview.className = 'review-card';
+          newReview.innerHTML = `
+            <p>${message}</p>
+            <span>${rating}</span>
+            <strong>${name}</strong>
+          `;
+          
+          // إضافة التقييم الجديد في البداية
+          reviewGrid.insertBefore(newReview, reviewGrid.firstChild);
+          
+          // مسح النموذج
+          reviewForm.reset();
+          
+          // إظهار رسالة نجاح
+          alert('شكراً! تم إضافة تقييمك بنجاح وظهر للزوار الآن.');
+          
+          // حفظ في localStorage (اختياري)
+          let reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+          reviews.push({ name, rating, message });
+          localStorage.setItem('reviews', JSON.stringify(reviews));
+        }
+      });
+    }
+  </script>
+</body>
+</html>
